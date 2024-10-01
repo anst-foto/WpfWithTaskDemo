@@ -10,7 +10,7 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
         var result = int.TryParse(InputNumber.Text, out var number);
         if (!result) return;
@@ -20,28 +20,20 @@ public partial class MainWindow : Window
         
         var progress2 = new Progress<int>();
         progress2.ProgressChanged += (_, i) => Progress2.Value = i;
-        
-        var tasks = new[]
-        {
-            new Task(() => DoWork(number, progress1, 1000)), 
-            new Task(() => DoWork(number, progress2, 500))
-        };
 
         ButtonStart.IsEnabled = false;
-        foreach (var task in tasks)
-        {
-            task.Start();
-        }
-
-        Task.WhenAll(tasks).ContinueWith(_ => Dispatcher.Invoke(() => ButtonStart.IsEnabled = true));
+        var task1 = DoWorkAsync(number, progress1, 500);
+        var task2 = DoWorkAsync(number, progress2, 250);
+        await Task.WhenAll(task1, task2);
+        ButtonStart.IsEnabled = true;
     }
 
-    private void DoWork(int number, IProgress<int> progress, int sleep)
+    private async Task DoWorkAsync(int number, IProgress<int> progress, int sleep)
     {
         for(var i = 0; i <= number; i++)
         {
             progress.Report(i);
-            Thread.Sleep(sleep);
+            await Task.Delay(sleep);
         }
     }
 }
