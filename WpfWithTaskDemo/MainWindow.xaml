@@ -5,8 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfWithTaskDemo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="MainWindow" 
+        
+        Height="450" Width="800"
+        FontSize="16">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Number"
+                   Target="InputNumber"/>
+            <TextBox x:Name="InputNumber"
+                     Width="75"/>
+        </StackPanel>
+        
+        <Grid>
+            <ProgressBar x:Name="Progress1"
+                         Minimum="0"
+                         Maximum="{Binding ElementName=InputNumber, Path=Text}"
+                         Height="50"/>
+            <TextBlock x:Name="ProgressIndex1"
+                       Text="{Binding ElementName=Progress1, Path=Value}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+        
+        <Grid>
+            <ProgressBar x:Name="Progress2"
+                         Minimum="0"
+                         Maximum="{Binding ElementName=InputNumber, Path=Text}"
+                         Height="50"/>
+            <TextBlock x:Name="ProgressIndex2"
+                       Text="{Binding ElementName=Progress2, Path=Value}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Grid>
+        
+        <Button x:Name="ButtonStart"
+                Content="Start"
+                Click="ButtonBase_OnClick"/>
+    </StackPanel>
 </Window>

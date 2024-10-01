@@ -10,4 +10,3 @@ namespace WpfWithTaskDemo;
 public partial class App : Application
 {
 }
-
